@@ -86,32 +86,42 @@ decoded_mushroom_data.dtypes
 
 ## Data Storage
 
-Once the data had been ingested and cleaned, we stored it in a MySQL database. To do this we first created a *housing* database using the `CREATE DATABASE` command.
+Now that the data has been ingested and cleaned, we can store it in a MySQL database. To do this we first created a *mushroom* database using the `CREATE DATABASE` command in the MySQL terminal.
 
 ```sql
-CREATE DATABASE housing;
+CREATE DATABASE mushroom;
 ```
 
-We then used `pymsql` and `sqlalchemy` to write the data to the database.
+We then used `pymsql` and `sqlalchemy` to connect and write the data to the database. The Python library `getpass` allows us to securely store the password used to connect to the MySQL database. The code below shows how we get that password and then use it to connect:
 
 ```python
 import pymysql
+import getpass
 from sqlalchemy import create_engine
 
-engine = create_engine('mysql+pymysql://user:password@localhost/housing')
-data.to_sql('housing', engine, if_exists='replace', index=False)
+p = getpass.getpass(prompt='Password: ', stream=None) 
+engine = create_engine('mysql+pymysql://root:'+p+'@localhost/mushroom')
 ```
 
-To read the stored data back into Pandas at a later date, we used the `read_sql_query` method.
+After successful connection, we can now write both our categorical and numerical dataframes to the new MySQL database as tables called "mushroom_cat" and "mushroom_num":
 
 ```python
-data = pd.read_sql_query('SELECT * FROM housing.housing', engine)
+original_mushroom_data.to_sql('mushroom_cat', engine, if_exists='replace', index=False)
+decoded_mushroom_data.to_sql('mushroom_num', engine, if_exists='replace', index=False)
 ```
 
-We also exported the cleaned data set as a CSV file that could be imported into Tableau for exploration and reporting.
+To read the stored data back at a later date as a dataframe, we use the Pandas `read_sql_query` method:
 
 ```python
-data.to_csv('housing_clean', index=False)
+pd.read_sql_query('SELECT * FROM mushroom.mushroom_cat', engine)
+pd.read_sql_query('SELECT * FROM mushroom.mushroom_num', engine)
+```
+
+We can also export the cleaned data set as a CSV file that to be imported into Tableau for exploration and reporting later on:
+
+```python
+original_mushroom_data.to_csv('./export/categorical_mushroom_data.csv', index=False)
+decoded_mushroom_data.to_csv('./export/numerical_mushroom_data.csv', index=False)
 ```
 
 ## Data Exploration and Analysis
