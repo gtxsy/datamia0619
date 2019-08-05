@@ -8,40 +8,39 @@ PLACEHOLDER: Final Project Description will go here...
 
 ## The Data
 
-The data set we explore here describes physical attributes and properties of over 8,000 wild  mushrooms. Most significantly, each data point in the set distinguishes the mushroom as either poisonous OR edible. This data was taken from OpenML.org (https://www.openml.org/d/24), extracted from "The Audubon Society Field Guide to North American Mushrooms" (1981).
+The data set we explore here describes physical attributes and properties of over 8,000 North American mushrooms. Most significantly, each data point in the set distinguishes the mushroom as either poisonous or edible. This data was taken from OpenML.org (https://www.openml.org/d/24), extracted from "The Audubon Society Field Guide to North American Mushrooms" (1981).
 
 
-## Data Ingestion
+## Loading the Data
 
 In order to work with this data set, we first had to ingest it. The file containing the data was in CSV format, so after downloading it, we used the `read_csv` method to read the data into a Pandas data frame.
 
 ```python
 import pandas as pd
 
-data = pd.read_csv('housing_prices.csv')
+original_mushroom_data = pd.read_csv('mushrooms.csv')
 ```
 
 Next, we checked that the data set loaded correctly by checking the shape of the data frame, looking at the first few rows of the data, and evaluating the column names to ensure that they look as we would expect.
 
 ```python
-data.shape
+original_mushroom_data.shape
 
-(1460, 81)
+(8124, 23)
 ```
 
 ```python
-data.head(10)
+original_mushroom_data.head(5)
 ```
 
-![Housing Data](./images/housing-data.png)
+![Mushroom Data](./images/original_dataset.png)
 
-```python
-print(list(data.columns))
+Below, we can see the original code-values contained in each column, representing the physical attributes of each mushroom:
 
-['Id', 'MSSubClass', 'MSZoning', 'LotFrontage', 'LotArea', 'Street', 'Alley', 'LotShape', 'LandContour', 'Utilities', 'LotConfig', 'LandSlope', 'Neighborhood', 'Condition1', 'Condition2', 'BldgType', 'HouseStyle', 'OverallQual', 'OverallCond', 'YearBuilt', 'YearRemodAdd', 'RoofStyle', 'RoofMatl', 'Exterior1st', 'Exterior2nd', 'MasVnrType', 'MasVnrArea', 'ExterQual', 'ExterCond', 'Foundation', 'BsmtQual', 'BsmtCond', 'BsmtExposure', 'BsmtFinType1', 'BsmtFinSF1', 'BsmtFinType2', 'BsmtFinSF2', 'BsmtUnfSF', 'TotalBsmtSF', 'Heating', 'HeatingQC', 'CentralAir', 'Electrical', '1stFlrSF', '2ndFlrSF', 'LowQualFinSF', 'GrLivArea', 'BsmtFullBath', 'BsmtHalfBath', 'FullBath', 'HalfBath', 'BedroomAbvGr', 'KitchenAbvGr', 'KitchenQual', 'TotRmsAbvGrd', 'Functional', 'Fireplaces', 'FireplaceQu', 'GarageType', 'GarageYrBlt', 'GarageFinish', 'GarageCars', 'GarageArea', 'GarageQual', 'GarageCond', 'PavedDrive', 'WoodDeckSF', 'OpenPorchSF', 'EnclosedPorch', '3SsnPorch', 'ScreenPorch', 'PoolArea', 'PoolQC', 'Fence', 'MiscFeature', 'MiscVal', 'MoSold', 'YrSold', 'SaleType', 'SaleCondition', 'SalePrice']
-```
+![Mushroom Column Values](./images/original_dataset_columns.png)
 
-From this initial assessment, it looks like we have successfully ingested the data set. We can now move on to evaluating the quality of the data, cleaning it, and wrangling it so that it is ready to be analyzed and modeled.
+
+From this initial assessment, we have successfully loaded the data set and examined the shape and attributes contained within the dataset. We can now move on to evaluating the quality of the data, cleaning it, and wrangling it so that it is ready to be analyzed and modeled.
 
 ## Data Wrangling and Cleaning
 
