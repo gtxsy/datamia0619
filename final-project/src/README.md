@@ -117,7 +117,7 @@ pd.read_sql_query('SELECT * FROM mushroom.mushroom_cat', engine)
 pd.read_sql_query('SELECT * FROM mushroom.mushroom_num', engine)
 ```
 
-We can also export the cleaned data set as a CSV file that to be imported into Tableau for exploration and reporting later on:
+We can also export the cleaned data set as a CSV file, to be imported into Tableau for exploration and reporting later on:
 
 ```python
 original_mushroom_data.to_csv('./export/categorical_mushroom_data.csv', index=False)
