@@ -44,63 +44,45 @@ From this initial assessment, we have successfully loaded the data set and exami
 
 ## Data Wrangling and Cleaning
 
-One of the first things we do in the wrangling and cleaning phase of the workflow is ensure that each column is of the correct data type. Below, we produce a data frame of numeric fields (including various descriptives statistics about them) using the `describe` method and then transposing the results since so that we can see all the resulting fields. We will also add a unique column to the results that returns the number of unique values in each column and a null column that calculates the number of missing values.
+The first obstacle in this dataset is that every value across all columns are stored as a codified string-value, with decoded values symbolized in the previous table. Our first task should be to create a duplicate set of data where all string-values are hot-encoded into binary (0 or 1) values, assuming that no ordinal data is available.
+
+Before we convert this data from string to integer values, let's first remove the extraneous single quotes ' that appear in every cell to avoid problems further down the road:
 
 ```python
-stats = data.describe().T
-stats['unique'] = [len(data[column].unique()) for column in stats.index]
-stats['null'] = [data[column].isnull().sum() for column in stats.index]
-stats
+original_mushroom_data = original_mushroom_data.applymap(lambda x: x.replace("'", ""))
 ```
 
-![Describe Data](./images/housing-data-describe.png)
-
-We call the `describe` method for categorical fields by setting the `include` parameter to contain only object and category data types.
+Next, we can check if the dataset itself is complete, by looking for missing (null or NaN) values within the dataframe:
 
 ```python
-cat_stats = data.describe(include=['object','category']).T
-cat_stats['null'] = [data[column].isnull().sum() for column in cat_stats.index]
-cat_stats
+original_mushroom_data.isna().sum()
 ```
 
-![Describe Data Categorical](./images/housing-data-describe-cat.png)
+![Mushroom Missing Values](./images/original_dataset_missing.png)
 
-Below are a few insights we derived from this brief look at the data that can help guide our data wrangling and cleaning efforts.
-
-* There are several fields that are currently numeric that should be categorical. We can identify these via a combination of their column name and their low number of unique values.
-
-* There are several fields in the data that contain null values. We will need to figure out how to address those.
-
-* There is an opportunity to create a couple of additional informative fields by performing calculations on existing fields.
-
-To fix the incorrect data types, we will simply identify the columns that are incorrectly typed and use the `astype` method to change the data type of each field to object.
+The output from our code, shown above, tells us that the original dataset is complete with no missing values. However, you can observe that one of our column names "bruises%3F" got mangled somehow, either when importing the CSV file or originally from the source. We can fix this easily:
 
 ```python
-categorical = categorical = ['MSSubClass', 'OverallQual', 'OverallCond', 
-                             'BsmtFullBath', 'BsmtHalfBath', 'FullBath', 
-                             'HalfBath', 'BedroomAbvGr', 'KitchenAbvGr', 
-                             'TotRmsAbvGrd', 'Fireplaces', 'GarageCars', 
-                             'PoolArea', 'MoSold', 'YrSold']
-
-for i in categorical:
-    data[i] = data[i].astype('object')
+original_mushroom_data.rename(columns={"bruises%3F": "bruises"}, inplace=True)
 ```
 
-In order to address null values in the data, we looked at which fields contained them and decided whether we would like to leave them as is or replace them with an appropriate value.
+Finally, we can pass our complete and cleaned data to the Pandas "get_dummies" function in order to convert all of our string-values into boolean (numerical) data. We will call this new numerical copy of our dataframe "decoded_mushroom_data".
 
 ```python
-fill_zeros = ['LotFrontage', 'MasVnrArea']
-
-for column in fill_zeros:
-    data[column] = data[column].fillna(0)
+decoded_mushroom_data = pd.get_dummies(original_mushroom_data)
 ```
 
-As far as creating additional informative fields, we could add together the 1st floor, 2nd floor, and basement square footage to get the total square footage of the property. Once we have total square footage, we could divide the sale price by it to arrive at a price per square foot metric.
+![Decoded Mushroom Data](./images/decoded_dataset.png)
+
+
+As a precaution, let's check to make sure that each column in our new "decoded_mushroom_data" is of the correct data type:
 
 ```python
-data['Total Sqft'] = data['1stFlrSF'] + data['2ndFlrSF'] + data['TotalBsmtSF']
-data['Price Per Sqft'] = data['SalePrice'] / data['Total Sqft']
+decoded_mushroom_data.dtypes
 ```
+
+![Decoded Mushroom Columns](./images/decoded_dataset_columns.png)
+
 
 ## Data Storage
 
