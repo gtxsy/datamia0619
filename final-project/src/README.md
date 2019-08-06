@@ -143,7 +143,7 @@ Here we can see the data is almost evenly split, with nearly half of all records
 
 *******
 
-Now, let's explore the distribution our the different colors of our mushrooms' caps: 
+Now, let's explore the distribution of different colors of the mushrooms' caps: 
 
 ![Cap Color Distribution](./images/distribution_colors.png)
 
