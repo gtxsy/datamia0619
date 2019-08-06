@@ -141,6 +141,8 @@ The first thing we wanted to look at was the distribution of poisonous vs edible
 
 Here we can see the data is almost evenly split, with nearly half of all records contaning poisonous mushrooms, and the other half edible.
 
+*******
+
 Now, let's explore the distribution our the different colors of our mushrooms' caps: 
 
 ![Cap Color Distribution](./images/distribution_colors.png)
@@ -154,49 +156,21 @@ The chart above now provides extra insight into how likely a mushroom is to be p
 ![Cap Color Pie Charts 1](./images/pie_colors_1.png)
 ![Cap Color Pie Charts 2](./images/pie_colors_2.png)
 
-Above, we can see that the distribution of poisonous and edible mushrooms is fairly even (50/50 split) across all cap colors, with the exception of Green and Purple which are both exclusively edible.
+Above, we can see that the distribution of poisonous (colored-Red) and edible (colored-Green) mushrooms is fairly even (50/50 split) across all cap colors, with the exception of Green and Purple-capped mushrooms which are both exclusively edible.
 
 *******
-*******
-*******
 
-Most of the property sales in this data set were of the *Warranty Deed - Conventional* type and under *Normal* conditions and the average price for those was in the low-to-mid $170,000's. The next most common were new construction sales, which were priced about $100,000 higher on average.
+Although we discovered that the color of a mushroom's cap is generally not enough to determine if it is poisonous or not, there may be other properties that serve as a better indicator. If our sense of sight is not much help (at least in the previous case), what about our sense of smell?
 
-One of the most obvious drivers of sales price for a property its size, typically represented by the total number of square feet. Below is a scatter plot showing the relationship between *Total Sqft* and *Sale Price* with regression line fit to the data.
+![Odor Distribition](./images/distribution_odors.png)
 
-![Sqft vs. Price](./images/sqft-vs-price.png)
+Here we can see the distribution of odors in our mushroom's dataset. Observe that almost half of all mushrooms (3528 out of 8124) have no odor whatsoever, while the remainder is unevenly distributed. Similar to our exploration of cap colors, we can look at percentage-based distribution of poison and edible mushrooms across all of the different odors:
 
-The R-squared for the trend line is 0.65 and the equation for the line is as follows, which can be used to set a base price for a given property given its square footage.
+![Odor Pie Charts 1](./images/pie_odors_1.png)
+![Odor Pie Charts 2](./images/pie_odors_2.png)
 
-```text
-ln(Total SQFT) = 0.63358*ln(Sale Price) + 0.184256
-```
+Above, we can see that mushrooms with odors of "almond" and "anise" are exclusively edible mushrooms, whereas all other columns -- except for those with no smell -- are exclusively poisonous mushrooms.
 
-Another important factor in the value of a property is its location. Because of this, we wanted to examine how the neighborhood the property was located in impacted the value of the property. We evaluated this from three perspectives - average price by number of bedrooms, how price per square foot changes based on size of the property, and price per square foot by the number of bedrooms.
-
-![Price by Neighborhood](./images/price-by-neighborhood.png)
-
-![Price Per Sqft by Neighborhood and Total Sqft](./images/price-per-sqft-neighborhood-total-sqft.png)
-
-![Price Per Sqft by Neighborhood and Bedrooms](./images/price-per-sqft-neighborhood-bedrooms.png)
-
-From the visualizations above, we can see that there are some neighborhoods where the properties are valued higher (e.g. StoneBr, NoRidge, NridgHt, etc.) and other neighborhoods where the location hurts the value of the property (BrDale, MeadowV, Edwards, SWISU, etc.). This also lets you see the neighborhoods where someone may be able to get the most property for their money. For example, larger (6-8 bedroom) properties in the NAmes, Sawyer, and SWISU neighborhoods have significantly lower value per square foot than smaller properties in those areas.
-
-There were a few other perspectives we wanted to look at the data from as well. We noticed that there were fields representing overall condition and overall quality and wanted to take a closer look at the differences between them and the impact they had on sales price.
-
-![Condition vs. Quality](./images/condition-vs-quality.png)
-
-It looks like most properties were rated a 5 for condition and were rated somewhere in the 5-8 range for quality. It looks like the quality rating for these properties is especially important as we see an typical increase of between 20% and 35% in average sales price for every point on the scale a property earns.
-
-We also wanted to take a look at how price varies based on the number of bedrooms and bathrooms a property has. From the visualization below, it looks as though half bathrooms are valued pretty highly - especially in 4 bedroom properties (between 45% and 72% increase in price).
-
-![Bedroom vs. Bathroom](./images/bedroom-vs-bathroom.png)
-
-Finally, we also wanted to look at how average prices have typically changed through out the year and from one year to the next. The visualization below shows an area chart for average price by month, stacked by year.
-
-![Avg Price by Month and Year](./images/month-year.png)
-
-From this, we can see that average sale prices are relatively consistent throughout the year, aside from a small bump in September. Additionally, it looks as though prices took a slight downturn over the last couple years (2008 and 2009) - down about 6% from the previous two years.
 
 ## Feature Selection
 
