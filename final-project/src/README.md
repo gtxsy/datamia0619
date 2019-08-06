@@ -193,64 +193,43 @@ transformed = pd.get_dummies(selected)
 
 ## Model Training and Evaluation
 
-We decided to compare several supervised learning regression models via k-fold cross validation to see which ones would best be able to predict the sale price of a property. To do this, we imported a variety of regression models from Scikit-learn and wrote a `compare_models` function that would train and evaluate multiple regressor models (stored in a dictionary) and compute cross validation scores for each so that we can compare their performance.
+Now, with a better understanding of the data and some insight as to how our column-attributes can help determine if a given mushroom is poisonous or not, we can proceed to prep our data set for modeling. Our goal is to train a regression model to predict if any mushroom is poisonous or not based on its physical attributes. 
 
 ```python
-from sklearn.model_selection import cross_val_score
-
-from sklearn.linear_model import Ridge
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.ensemble import AdaBoostRegressor
-from sklearn.ensemble import BaggingRegressor
-
-regressors = {'K-Nearest Neighbor': KNeighborsRegressor(n_neighbors=3),
-              'Decision Tree': DecisionTreeRegressor(),
-              'Ridge Regression': Ridge(),
-              'Random Forest': RandomForestRegressor(),
-              'Gradient Boosting': GradientBoostingRegressor(), 
-              'AdaBoost': AdaBoostRegressor(),
-              'Bagging Regressor': BaggingRegressor()}
-
-def compare_models(x, y, model_dict, folds=3):
-    results = []
-    
-    for name, model in model_dict.items():
-        scores = cross_val_score(model, x, y, cv=folds)
-        stats = [name, scores.mean(), min(scores), max(scores), scores.std(), pd.Series(scores).mad()]
-        results.append(stats)
-    
-    df = pd.DataFrame(results, columns = ['Model', 'Mean', 'Min', 'Max','Std', 'Mad'])
-    df = df.sort_values('Mean', ascending = False)
-    return df
+decoded_mushroom_data.corr()
 ```
 
-Next, we designated the sale price field as our target (y) variable and the rest of the fields (with the exception of price per sqft since the sale price is used to calculate it) as our independent variable (x) set.
+![Correlations Matrix](./images/correlations.png)
+
+
+The matrix generated shown above displays the correlation coefficients across all combinations of columns in our numerical dataset. We can explore this further, by looking exclusively at correlations within the "class_p" column to examine the relationships of all columns in relation to our mushroom's poisonous property with this code:
 
 ```python
-y = transformed['SalePrice']
-x = transformed.drop(['SalePrice', 'Price Per Sqft'], axis=1)
+pd.DataFrame(decoded_mushroom_data.corr()['class_p'].sort_values())
 ```
 
-We then ran our model comparison function using 5-fold cross validation and obtained the following results.
+The output from the code above gives a list, in sorted order, of all columns and their correlation to the 
+"class_p" property, which represents the mushrooms in the dataset that are poisonous or not. The correlation coefficients here can help us select the best features to train the data with. We should pick those features that have the strongest correlations (both positive and negative), in order to minimize noise and optimize our regression model.
+
+We can then select all column names with correlations higher than 0.25 and lower than -0.25:
 
 ```python
-compare_models(x, y, regressors, 5)
+correlations = pd.DataFrame(decoded_mushroom_data.corr()['class_p'].sort_values())
+X_columns = []
+
+for index, row in correlations.iterrows():
+    if (0.25 < row.class_p < 1):
+        X_columns.append(index)
+    elif (-1 < row.class_p < -0.25):
+        X_columns.append(index)
+        
+X_columns 
 ```
 
-![Avg Price by Month and Year](./images/model-comparison.png)
+The output from the code above, then, will yield our final list of feature X-components to train our model on:
 
-It looks like the Gradient Boosting model performed the best with an average score of 0.85. We then used that algorithm to train a model on the entire data set and pickle it for future use.
+![Features](./images/features.png)
 
-```python
-import pickle
-
-model = GradientBoostingRegressor()
-model.fit(x, y)
-pickle.dump(model, open('housing_price_model.pkl', 'wb'))
-```
 
 ## Conclusion
 
