@@ -126,24 +126,39 @@ decoded_mushroom_data.to_csv('./export/numerical_mushroom_data.csv', index=False
 
 ## Data Exploration and Analysis
 
-After cleaning and storing the data, the next steps we took were exploring and analyzing the data. Each row in the data set represents a property and each column represents attributes belonging to those properties. We looked through these attributes to determine which ones would potentially yield the most informative insights. Below are a list of those fields followed by a series of data visualizations conveying insights discovered.
+After cleaning and storing the data, we can begin exploring and analyzing the data. Each row in the data set represents the physical properties of different observed mushrooms and each column represents attributes belonging to those properties. We looked through these attributes to determine which ones would potentially yield the most informative insights, based on the total number of unique values in each column and how easy it should be to observe each property. Below is a summary of the steps of our explorations, followed by a series of data visualizations conveying insights discovered:
 
-* Type of Sale
-* Sale condition
-* Neighborhood
-* Total square footage of the property
-* Numbers of bedrooms and bathrooms
-* Overall quality
-* Overall condition
-* Month and year of sale
-* Sale Price
-* Price per square foot
+* Poisonous vs Edible Mushrooms
+* Mushroom Color Caps
+* Distribution of Poison Mushrooms by Color Caps
+* Total Percent of Poison Mushrooms by Color Caps
+* Mushroom Odors
+* Total Percent of Poison Mushrooms by Odors
 
-The first thing we wanted to look at was the number of sales and average sale prices by type of sale and sale condition.
+The first thing we wanted to look at was the distribution of poisonous vs edible mushrooms in our dataset, or how many instances of each are recorded:
 
-![Price by Sales Type](./images/sales-avg-price-by-sale-type.png)
+![Poison Distribution](./images/distribution_poison.png)
 
-![Price by Sales Condition](./images/price-by-sale-condition.png)
+Here we can see the data is almost evenly split, with nearly half of all records contaning poisonous mushrooms, and the other half edible.
+
+Now, let's explore the distribution our the different colors of our mushrooms' caps: 
+
+![Cap Color Distribution](./images/distribution_colors.png)
+
+The spread of cap colors across all the mushrooms in our dataset is not evenly spread here, with the majority of mushroom caps having earthy colors like Brown, Grey, Red, and Yellow. We can build on top of this, by exploring the relationship of the cap colors with the distribution of poisonous mushrooms:
+
+![Poison Distribution by Cap Color](./images/distribution_colors_by_poison.png)
+
+The chart above now provides extra insight into how likely a mushroom is to be poison, based on the color of it's cap. Because the distribution of cap colors is not very even, the graph is harder to read for some cap colors. We can fix this by looking at a pecentage-based breakdown which is easily visualized using pie charts:
+
+![Cap Color Pie Charts 1](./images/pie_colors_1.png)
+![Cap Color Pie Charts 2](./images/pie_colors_2.png)
+
+Above, we can see that the distribution of poisonous and edible mushrooms is fairly even (50/50 split) across all cap colors, with the exception of Green and Purple which are both exclusively edible.
+
+*******
+*******
+*******
 
 Most of the property sales in this data set were of the *Warranty Deed - Conventional* type and under *Normal* conditions and the average price for those was in the low-to-mid $170,000's. The next most common were new construction sales, which were priced about $100,000 higher on average.
 
