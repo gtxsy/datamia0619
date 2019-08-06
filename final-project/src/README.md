@@ -174,25 +174,6 @@ Above, we can see that mushrooms with odors of "almond" and "anise" are exclusiv
 
 ## Feature Selection
 
-Once we had a better understanding of the data and some insight as to how different property attributes impact pricing, we proceeded to prep our data set for modeling. To do this, we narrowed down our feature set to just those that we explored and analyzed so that we could see how well those features can inform a machine learning model whose goal is to predict the sale price of a given property.
-
-```python
-features = ['Neighborhood', 'OverallQual', 'OverallCond', 
-            'FullBath', 'HalfBath', 'BedroomAbvGr', 
-            'MoSold', 'YrSold', 'SaleType', 'SaleCondition', 
-            'SalePrice', 'Total Sqft', 'Price Per Sqft']
-
-selected = data[features]
-```
-
-Next, we transformed these features so that all categorical variables were one-hot encoded.
-
-```python
-transformed = pd.get_dummies(selected)
-```
-
-## Model Training and Evaluation
-
 Now, with a better understanding of the data and some insight as to how our column-attributes can help determine if a given mushroom is poisonous or not, we can proceed to prep our data set for modeling. Our goal is to train a regression model to predict if any mushroom is poisonous or not based on its physical attributes. 
 
 ```python
@@ -202,14 +183,14 @@ decoded_mushroom_data.corr()
 ![Correlations Matrix](./images/correlations.png)
 
 
-The matrix generated shown above displays the correlation coefficients across all combinations of columns in our numerical dataset. We can explore this further, by looking exclusively at correlations within the "class_p" column to examine the relationships of all columns in relation to our mushroom's poisonous property with this code:
+The generated matrix shown above displays the correlation coefficients across all combinations of columns in our numerical dataset. We can explore this further, by looking exclusively at correlations within the "class_p" column to examine the relationships of all columns in relation to our mushroom's poisonous property with this code:
 
 ```python
 pd.DataFrame(decoded_mushroom_data.corr()['class_p'].sort_values())
 ```
 
 The output from the code above gives a list, in sorted order, of all columns and their correlation to the 
-"class_p" property, which represents the mushrooms in the dataset that are poisonous or not. The correlation coefficients here can help us select the best features to train the data with. We should pick those features that have the strongest correlations (both positive and negative), in order to minimize noise and optimize our regression model.
+"class_p" property, which represents the mushrooms in the dataset that are poisonous or not. The correlation coefficients here can help us select the best features to train the data on. We should pick those features that have the strongest correlations (both positive and negative), in order to minimize noise and optimize our regression model.
 
 We can then select all column names with correlations higher than 0.25 and lower than -0.25:
 
