@@ -230,6 +230,80 @@ The output from the code above, then, will yield our final list of feature X-com
 
 ## Model Training and Evaluation
 
+Our final goal is to create a model to accurately predict if a given mushroom in our dataset is poisonous or not. We can do this using supervised machine learning, with either a Logistic Regression model, or KNN. Here we will try both.
+
+We'll start by splitting the data into two sets: one for training a regression model, and one for testing predictions on that model:
+
+```python
+from sklearn.model_selection import train_test_split
+
+# Split X and Y sets into 80% training data and 20% testing data:
+X_data = decoded_mushroom_data[X_columns]
+Y_data = decoded_mushroom_data['class_p']
+X_train, X_test, Y_train, Y_test  = train_test_split(X_data, Y_data, test_size = 0.2)
+
+```
+
+With our data prepared, we can now create and fit our model onto the training data. We will begin by looking at a Logistic Regression model:
+
+```python
+from sklearn import linear_model
+
+# Initialize the Logistic Regression model
+log_model = linear_model.LogisticRegression(solver='lbfgs')
+
+# Train the model
+log_model.fit(X_train, Y_train) 
+
+```
+
+With the model created and fitted onto our training data, we can begin to test predictions on our test data:
+
+```python
+from sklearn import metrics
+
+# Create predictions based on test data, and then evaluate the Linear Regression model
+y_pred = log_model.predict(X_test)
+print("Accuracy Score:", metrics.accuracy_score(Y_test, y_pred))
+metrics.confusion_matrix(Y_test, y_pred)
+```
+
+Example output from code run above:
+
+```python
+Accuracy Score: 0.9790769230769231
+array([[808,  19],
+       [ 15, 783]])
+```
+
+Shown above, the Linear Regression model predicted correctly that 808 of the given mushrooms would be poisionous, and 783 would be edible. Out of over 1,600 data points that we tested on, it only had 34 incorrect guesses, resulting in a final accuracy score of 97.9%
+
+*******
+
+Finally, we will try a KNN model in order to improve the accuracy of our predictions:
+
+```python
+from sklearn.neighbors import KNeighborsClassifier
+
+# Create an alternate machine learning model with KNN
+neighbor_model = KNeighborsClassifier(n_neighbors=3)
+neighbor_model.fit(X_train, Y_train)
+
+# Create predictions based on test data, and then evaluate the KNN model
+y_pred_knn = neighbor_model.predict(X_test)
+print("Accuracy Score:", metrics.accuracy_score(Y_test, y_pred_knn))
+metrics.confusion_matrix(Y_test, y_pred_knn)
+```
+
+Example output:
+
+```python
+Accuracy Score: 0.9815384615384616
+array([[808,  19],
+       [ 11, 787]])
+```
+
+In this example, our KNN model was able to improve predictions of edible mushrooms (787 correct compared to 783 in the previous model). Although there was no improvement in the accuracy of predicting poisonous mushrooms, we still observe a 0.25% increase in the total accuracy of our predictions with this model for a final accuracy score of 98.2%
 
 ## Conclusion
 
