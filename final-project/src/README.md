@@ -4,7 +4,7 @@
 
 ## Overview
 
-In this project, we will process and analyze data about poisonous mushrooms in North America, in order to better understand the physical chracteristics that can help determine if a given mushroom is edible or not. We will use information gathered from our analysis in order to create a supervised machine learning model that will be able to predict if a mushroom is safe to consume or not, based on these same physical attributes.
+In this study, we will process and analyze data about poisonous mushrooms in North America, in order to better understand the physical chracteristics that can help determine if a given mushroom is edible or not. We will use information gathered from our analysis in order to create a supervised machine learning model that will be able to predict if a mushroom is safe to consume or not, based on these same physical attributes.
 
 Commit Log from Original Project Repository:
 https://github.com/gtxsy/datamia0619/commits/master
@@ -310,4 +310,4 @@ In this example, our KNN model was able to improve predictions of edible mushroo
 
 ## Conclusion
 
-In this demo final project, we have analyzed a data set consisting of over 1,400 properties, their attributes, and their sale prices. We have followed the steps of the data analysis workflow, starting with data ingestion, wrangling and cleaning, and exploration and analysis before moving on to the the machine learning workflow consisting of feature selection/engineering, model selection, and model evaluation. In the end, we were able to predict housing prices with a respectable level of accuracy and we also derived insights about how factors such as neighborhood, square footage, and quality of the property affect the sale price.
+In this study, we have explored a dataset consisting of over 8,000 North American mushrooms and 23 distinct physical attributes. Our data analysis workflow started with data ingestion, wrangling and cleaning, external storage, and analysis, before finally creating a superivsed machine learning model consisting of feature selection/engineering, model selection, and model evaluation. In the end, we were able to predict if a given mushroom is safe to eat with a final accuracy of 98.2% using a KNN machine learning model.
