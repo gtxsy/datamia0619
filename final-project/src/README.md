@@ -1,10 +1,13 @@
 ![IronHack Logo](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_d5c5793015fec3be28a63c4fa3dd4d55.png)
 
-# Exploration of Poisonous Mushrooms
+# An Exploration of Poison Mushrooms in North America 
 
 ## Overview
 
-PLACEHOLDER: Final Project Description will go here...
+In this project, we will process and analyze data about poisonous mushrooms in North America, in order to better understand the physical chracteristics that can help determine if a given mushroom is edible or not. We will use information gathered from our analysis in order to create a supervised machine learning model that will be able to predict if a mushroom is safe to consume or not, based on these same physical attributes.
+
+Commit Log from Original Project Repository:
+https://github.com/gtxsy/datamia0619/commits/master
 
 ## The Data
 
