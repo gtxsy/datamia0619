@@ -192,16 +192,16 @@ pd.DataFrame(decoded_mushroom_data.corr()['class_p'].sort_values())
 The output from the code above gives a list, in sorted order, of all columns and their correlation to the 
 "class_p" property, which represents the mushrooms in the dataset that are poisonous or not. The correlation coefficients here can help us select the best features to train the data on. We should pick those features that have the strongest correlations (both positive and negative), in order to minimize noise and optimize our regression model.
 
-We can then select all column names with correlations higher than 0.25 and lower than -0.25:
+We can then select all column names with correlations higher than 0.4 and lower than -0.4:
 
 ```python
 correlations = pd.DataFrame(decoded_mushroom_data.corr()['class_p'].sort_values())
 X_columns = []
 
 for index, row in correlations.iterrows():
-    if (0.25 < row.class_p < 1):
+    if (0.4 < row.class_p < 1):
         X_columns.append(index)
-    elif (-1 < row.class_p < -0.25):
+    elif (-1 < row.class_p < -0.4):
         X_columns.append(index)
         
 X_columns 
@@ -209,7 +209,26 @@ X_columns
 
 The output from the code above, then, will yield our final list of feature X-components to train our model on:
 
-![Features](./images/features.png)
+```python
+['odor_n',
+ 'ring-type_p',
+ 'gill-size_b',
+ 'bruises_t',
+ 'stalk-surface-above-ring_s',
+ 'stalk-surface-below-ring_s',
+ 'spore-print-color_n',
+ 'population_v',
+ 'ring-type_l',
+ 'spore-print-color_h',
+ 'bruises_f',
+ 'gill-color_b',
+ 'gill-size_n',
+ 'stalk-surface-below-ring_k',
+ 'stalk-surface-above-ring_k',
+ 'odor_f']
+```
+
+## Model Training and Evaluation
 
 
 ## Conclusion
